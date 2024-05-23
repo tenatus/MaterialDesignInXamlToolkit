@@ -47,11 +47,18 @@ public class Planet
     public double Velocity { get; set; }
 }
 
-public class TestItem
+public class TestItem : ViewModelBase
 {
+    private bool _isExpanded;
+
     public TestItem? Parent { get; set; }
     public string Name { get; }
     public ObservableCollection<TestItem> Items { get; }
+    public bool IsExpanded
+    {
+        get => _isExpanded;
+        set => SetProperty(ref _isExpanded, value);
+    }
 
     public TestItem(string name, IEnumerable<TestItem> items)
     {
@@ -88,6 +95,8 @@ public sealed class TreesViewModel : ViewModelBase
 
     public AnotherCommandImplementation AddListTreeItemCommand { get; }
 
+    public AnotherCommandImplementation ExpandListTreeItemsCommand { get; }
+
     public AnotherCommandImplementation RemoveListTreeItemCommand { get; }
 
     public TestItem? SelectedTreeItem
@@ -121,6 +130,16 @@ public sealed class TreesViewModel : ViewModelBase
             }
             return rv;
         }
+
+        ExpandListTreeItemsCommand = new(_ =>
+        {
+            foreach (var item in TreeItems)
+            {
+                item.IsExpanded = true;
+                foreach (var item2 in item.Items)
+                    item2.IsExpanded = true;
+            }
+        });
 
         AddListTreeItemCommand = new(_ =>
         {

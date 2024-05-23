@@ -231,8 +231,18 @@
               </DataTemplate>
             </materialDesign:TreeListView.Resources>
 
+            <materialDesign:TreeListView.ItemContainerStyle>
+              <Style TargetType="materialDesign:TreeListViewItem" BasedOn="{StaticResource MaterialDesignTreeListViewItem}">
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+              </Style>
+            </materialDesign:TreeListView.ItemContainerStyle>
+
           </materialDesign:TreeListView>
           <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button Command="{Binding ExpandListTreeItemsCommand}"
+                    ToolTip="Expand all items"
+                    Content="{materialDesign:PackIcon Kind=ExpandAll}"/>
+
             <Button Command="{Binding AddListTreeItemCommand}"
                     ToolTip="Add an item"
                     Content="{materialDesign:PackIcon Kind=Add}"/>
